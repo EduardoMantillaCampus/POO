@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;500;600&display=swap');
+*{
+    font-family: 'Chivo Mono', monospace;
+}
+.body{
+    background-color: #f2f2f2;
+    min-height: 100vh;
+    background-image: url('fondo.jpg');
+    background-size: cover;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+.form-label{
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.container{
+    background-color: #fff;
+    min-height: 100vh;
+}
+.container h1{
+    font-size: 30px;
+    text-align: end;
+    padding-bottom: 40px;
+    font-weight: 600;
+    color: gray;
+    text-decoration: underline;
+}
+
+.form-style{
+    background-color: #f2f2f2;
+    padding: 20px 20px;
+    box-shadow: 5px 5px 10px gray;
+}
