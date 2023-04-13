@@ -1,47 +1,68 @@
-let dataLocal = []
 class lapiz{
-    constructor({
-        color="#BA4A00",
-        dimension=20,
-        borrador=false,
-        material="Madera",
-        marca="Big"}) 
-        {
 
+    #marca
+    constructor({
+        color="#198754",
+        dimension=15,
+        borrador="true",
+        material="Madera",
+        marca="Mongo"}) 
+        {
         this.color=color;
         this.dimension=dimension;
         this.borrador=borrador;
         this.material=material;
-        this.marca=marca;
+        this.#marca=marca;
+    }
+
+    getColor(){
+        return this.color
+    }
+    getDimension(){
+        return this.dimension
+    }
+    getBorrador(){
+        return this.borrador
+    }
+    getMaterial(){
+        return this.material
+    }
+    getMarca(){
+        return this.#marca
     }
 
 
 }
 
-window.addEventListener("load", function(e){
-    let obj = new lapiz({material:"Goma"});
-    console.log(obj);
-    this.document.querySelector("#txtColor").value=obj.color  
-    this.document.querySelector("#txtDimension").value=obj.dimension
-    this.document.querySelector("#number").innerHTML=obj.dimension
-    this.document.querySelector("#selectMarca").value=obj.marca;
+let bodyTable = document.querySelector("#bodyTable");
 
-    document.querySelector('input[name="borrador"]').values="true"
+addEventListener("DOMContentLoaded", function(e){   
+    let obj = new lapiz({material:"Madera"});
+    this.document.querySelector("#txtColor").value=obj.getColor()
+    this.document.querySelector("#txtDimension").value=obj.getDimension()
+    this.document.querySelector("#number").innerHTML=obj.getDimension()
+    this.document.querySelector("#selectMarca").value=obj.getMarca();
+    setRadio("borrador",obj.borrador);
+    setRadio("material",obj.material);
 
-    this.document.querySelector("#number").innerHTML=obj.dimension
-    this.document.querySelector("#number").innerHTML=obj.dimension
-    
+    bodyTable.insertAdjacentHTML('beforeend',`
+    <tr>
+    <td style="background-color: ${obj.getColor()}"></td>
+        <td>${obj.getDimension()}</td>
+        <td>${obj.getMarca()}</td>
+        <td>${obj.getBorrador()}</td>
+        <td>${obj.getMaterial()}</td>
+    </tr>`)
+
 })
 
-let inputRange = document.getElementById("txtDimension");
-let spanNumber = document.getElementById("number");
-
-inputRange.addEventListener("input", function () {
-    let valor = inputRange.value;
-    spanNumber.innerHTML = valor;
-});
-
-
+function setRadio(name,value){
+    document.querySelectorAll(`input[name="${name}"]`).forEach(element =>{
+        if(element.value ==value){
+            element.checked=true;
+        }
+    });
+}
 
 let formulario = document.querySelector("#formData");
 
@@ -52,51 +73,24 @@ formulario.addEventListener('submit', (e) =>{
         color:data.color,
         dimension:data.dimension,
         borrador:data.borrador,
-        material:data.madera,
+        material:data.material,
         marca:data.marca
     });
-    dataLocal.unshift(data)
-    console.log(myLapiz);
+    bodyTable.insertAdjacentHTML('beforeend',`
+    <tr>
+        <td style="background-color: ${myLapiz.getColor()}"></td>
+        <td>${myLapiz.getDimension()}</td>
+        <td>${myLapiz.getMarca()}</td>
+        <td>${myLapiz.getBorrador()}</td>
+        <td>${myLapiz.getMaterial()}</td>
+    </tr>`)
 })
 
+let inputRange = document.getElementById("txtDimension");
+let spanNumber = document.getElementById("number");
 
-function cargaData(data){  
-    tabla = document.querySelector("#number")
-    tabla_egresos.innerHTML="";
-    tabla_ingresos.innerHTML="";
-    data.forEach((val,id)=>{
-        if(val.operacion== "+"){
-            tabla_ingresos.insertAdjacentHTML('beforeend',`
-            <tr>
-                <td class="dato">${val.descripcion}</td>
-                <td class="valor">$${val.valor}</td>
-                <td><button class="buttonDrop" value="${id}" id=${id}><i class="fa-solid fa-trash"></i></button></td>
-            </tr>`)
-            
-        }else{
-            let porcentaje = ((val.valor*100)/ingresosValor)
-            tabla_egresos.insertAdjacentHTML('beforeend',`
-            <tr>
-                <td class="dato">${val.descripcion}</td>
-                <td class="valor">$${val.valor}</td>
-                <td><span class="porcentaje">${porcentaje.toFixed(1)}%</span></td>
-                <td><button class="buttonDrop" value="${id}" id="${id}"><i class="fa-solid fa-trash"></i></button></td>
-            </tr>`)
-        }
-    })
-    presupuesto_Disponible=ingresosValor-egresosValor;
-    let valorr=presupuesto_Disponible
-    const precioConFormato = valorr.toLocaleString('es-CO', {style: 'currency', currency: 'COP'});
-    document.querySelector("#presuDispo").innerHTML = `${precioConFormato}`
-    document.querySelector("#ingresosValor").innerHTML = `$ ${ingresosValor}` 
-    document.querySelector("#egresosValor").innerHTML = `$ ${egresosValor}` 
-    let porcentajeEgreso=0;
+inputRange.addEventListener("input", function () {
+    let valor = inputRange.value;
+    spanNumber.innerHTML = valor;
+});
 
-    if(ingresosValor>0){
-    porcentajeEgreso = ((egresosValor*100)/ingresosValor);
-    document.querySelector("#porcentajeEgreso").innerHTML= `${porcentajeEgreso.toFixed(1)}%`
-    }else{
-        document.querySelector("#porcentajeEgreso").innerHTML= 0;
-    }
-    
-}
